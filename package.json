@@ -1,0 +1,32 @@
+{
+  "name": "playwright-framework",
+  "version": "1.0.0",
+  "description": "Reto técnico QA Automation Web E2E con Playwright sobre SauceDemo.",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx playwright test",
+    "bdd:test": "cucumber-js --require-module ts-node/register --require features/**/*.ts --format json:reports/cucumber.json features",
+    "bdd:report": "node scripts/generate-cucumber-report.js",
+    "bdd:clean": "rimraf reports cucumber-report.html",
+    "test:headed": "npx playwright test --headed",
+    "test:report": "npx playwright show-report",
+    "test:debug": "npx playwright test --debug",
+    "install:browsers": "npx playwright install"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.60.0",
+    "playwright": "^1.60.0",
+    "@cucumber/cucumber": "^8.9.0",
+    "ts-node": "^10.9.1",
+    "cucumber-html-reporter": "^5.5.0",
+    "chai": "^4.3.8",
+    "@types/chai": "^4.3.4",
+    "rimraf": "^5.0.0",
+    "@types/node": "^22.19.19",
+    "dotenv": "^17.4.2",
+    "typescript": "^5.9.2"
+  }
+}
