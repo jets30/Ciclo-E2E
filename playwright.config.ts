@@ -37,7 +37,8 @@ export default defineConfig({
   outputDir: 'test-results',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    headless: false,
+    // Run headed locally but use headless on CI runners
+    headless: !!process.env.CI,
     actionTimeout: 0,
     navigationTimeout: 30000,
     screenshot: 'only-on-failure',

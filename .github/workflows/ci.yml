@@ -38,7 +38,9 @@ jobs:
           path: playwright-report
 
       - name: Run BDD tests (Cucumber)
-        run: npm run bdd:test || true
+        run: |
+          mkdir -p reports
+          npm run bdd:test || true
 
       - name: Generate BDD HTML report
         run: npm run bdd:report || true
