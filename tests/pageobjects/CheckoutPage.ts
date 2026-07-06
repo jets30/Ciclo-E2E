@@ -1,4 +1,4 @@
-import { Locator, Page, expect } from '@playwright/test'
+import { Locator, Page } from '@playwright/test'
 
 export class CheckoutPage {
   private readonly firstNameInput: Locator
@@ -33,11 +33,11 @@ export class CheckoutPage {
     await this.finishButton.click()
   }
 
-  async expectSuccess() {
-    await expect(this.successMessage).toBeVisible()
+  getSuccessMessage() {
+    return this.successMessage
   }
 
-  async expectErrorMessage(message: string) {
-    await expect(this.errorMessage).toContainText(message)
+  getErrorMessage() {
+    return this.errorMessage
   }
 }

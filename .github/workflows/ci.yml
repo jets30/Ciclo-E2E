@@ -28,18 +28,18 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run Playwright tests (headed=false)
-        run: npx playwright test --reporter=html || true
+        run: npm test || true
 
       - name: Archive Playwright HTML report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report
-          path: playwright-report
+          path: artifacts/playwright-report
 
       - name: Run BDD tests (Cucumber)
         run: |
-          mkdir -p reports
+          mkdir -p artifacts/bdd-reports
           npm run bdd:test || true
 
       - name: Generate BDD HTML report
@@ -51,7 +51,7 @@ jobs:
         with:
           name: bdd-evidences
           path: |
-            reports/cucumber.json
+            artifacts/bdd-reports/cucumber.json
             evidencias/bdd-report.html
             evidencias/bdd/**
             evidencias/ui/**
@@ -61,7 +61,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: test-results
-          path: test-results
+          path: artifacts/test-results
 
       - name: Upload repository README and docs
         if: always()

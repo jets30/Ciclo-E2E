@@ -1,29 +1,18 @@
 import { defineConfig, devices } from '@playwright/test';
-/*import dotenv from 'dotenv';
+import { activeEnvironment, activeBaseUrl } from './tests/util/environmentConfig';
 
-dotenv.config({
-  path: `.env.${process.env.NODE_ENV || 'dev'}`
-});*/
+const environment = activeEnvironment;
+
 /**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
+ * See https://playwright.dev/docs/test-configuration.
  */
-// import dotenv from 'dotenv';
-// import path from 'path';
-// dotenv.config({ path: path.resolve(__dirname, '.env') });
-
-require('dotenv').config(
-  {
-    path: `.env.${process.env.NODE_ENV ? process.env.NODE_ENV : 'dev'}`
-  }
-);
 
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
 
 export default defineConfig({
-  testDir: './tests/ligo',
+  testDir: './tests/SauceDemo',
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -33,8 +22,8 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: [['html', { outputFolder: 'playwright-report', open: 'never' }]],
-  outputDir: 'test-results',
+  reporter: [['html', { outputFolder: 'artifacts/playwright-report', open: 'never' }]],
+  outputDir: 'artifacts/test-results',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     // Run headed locally but use headless on CI runners
@@ -43,9 +32,9 @@ export default defineConfig({
     navigationTimeout: 30000,
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
-    trace: 'on-first-retry',
+    trace: 'on',
     /* Base URL to use in actions like `await page.goto('')`. */
-    baseURL: process.env.URL ?? 'https://www.saucedemo.com/',
+    baseURL: activeBaseUrl,
   },
 
   /* Configure projects for major browsers */
@@ -63,7 +52,6 @@ export default defineConfig({
         contextOptions: {
           // chromium-specific permissions
           permissions: ['clipboard-read', 'clipboard-write'],
-         // storageState: "playwright/.auth/user.json",
       },
     },
     //dependencies: ['setup']

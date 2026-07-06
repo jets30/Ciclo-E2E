@@ -1,4 +1,4 @@
-import { Locator, Page, expect } from '@playwright/test'
+import { Locator, Page } from '@playwright/test'
 
 export class CartPage {
   private readonly checkoutButton: Locator
@@ -9,8 +9,8 @@ export class CartPage {
     this.cartItem = page.locator('.cart_item')
   }
 
-  async verifyCartItemVisible() {
-    await expect(this.cartItem).toBeVisible()
+  getCartItem() {
+    return this.cartItem
   }
 
   async getCartItemDetails() {
@@ -22,7 +22,6 @@ export class CartPage {
   }
 
   async checkout() {
-    await expect(this.checkoutButton).toBeVisible()
     await this.checkoutButton.click()
   }
 }

@@ -1,4 +1,4 @@
-import { Locator, Page, expect } from "@playwright/test"
+import { Locator, Page } from "@playwright/test"
 
 export class LoginPage {
 
@@ -14,7 +14,7 @@ export class LoginPage {
         this.usernameTextbox = page.getByRole('textbox', { name: 'Username' })
         this.passwordTextbox = page.getByRole('textbox', { name: 'Password' })
         this.loginButton = page.getByRole('button', { name: 'Login' })
-        this.shoppingCartIcon = page.locator("xpath=//a[contains(@class, 'shopping_cart_link')]")
+        this.shoppingCartIcon = page.locator('a.shopping_cart_link')
         this.errorMessage = page.locator('[data-test="error"]')
     }
 
@@ -40,12 +40,11 @@ export class LoginPage {
         await this.clickOnLogin()
     }
 
-    async checkSuccessfulLogin() {
-        await expect(this.shoppingCartIcon).toBeVisible()
+    getCartIcon() {
+        return this.shoppingCartIcon
     }
 
-    async expectLoginError(message: string) {
-        await expect(this.errorMessage).toBeVisible()
-        await expect(this.errorMessage).toContainText(message)
+    getErrorMessage() {
+        return this.errorMessage
     }
 }

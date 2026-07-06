@@ -1,4 +1,6 @@
-export default{
-    URL: process.env.URL ?? '',
-    USERNAME: process.env.USERNAME ?? '',
+import { activeBaseUrl } from './environmentConfig'
+
+export default {
+  URL: activeBaseUrl,
+  USERNAME: process.env.USERNAME ?? '',
 }
