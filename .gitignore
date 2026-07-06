@@ -1,48 +1,45 @@
-## Node
+## Dependencies
 node_modules/
-npm-debug.log*
 
-# Build
+## Build outputs
 dist/
 build/
 
-# Editors
+## Editor and OS files
 .vscode/
 .idea/
 .DS_Store
 Thumbs.db
 
-# Environment
+## Environment and secrets (recommended: commit only *.example files)
 .env
+.env.local
 .env.*.local
+.env.dev
+.env.qa
 
-# Playwright and test outputs (generated)
+## Test runner outputs (generated)
 artifacts/playwright-report/
-.playwright/
 artifacts/test-results/
 artifacts/bdd-reports/
+blob-report/
+.playwright/
+playwright/.cache/
 
-# Logs
+## Logs and temporary files
 *.log
-
-# Temporary
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 tmp/
 *.tmp
 
-# Media and large runtime artifacts (ignored by default)
+## Large runtime media (if generated outside artifacts)
 videos/
 traces/
 
-# Keep evidencias/ versioned (examples of reports/screenshots)
-# evidencias/
+## Keep delivery evidence versioned, but ignore local transient evidence
 evidencias/ui/
 evidencias/screenshots/
 evidencias/last-run.log
-
-# Playwright
-node_modules/
-/artifacts/test-results/
-/artifacts/playwright-report/
-/artifacts/bdd-reports/
-/blob-report/
-/playwright/.cache/

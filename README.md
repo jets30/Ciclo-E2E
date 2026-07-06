@@ -35,6 +35,7 @@ La suite principal (no BDD) está en `tests/SauceDemo`.
 ### Playwright (no BDD)
 
 Estrategia de tags aplicada:
+
 - `@smoke`: solo flujo crítico positivo (login exitoso y checkout exitoso).
 - `@regression`: cobertura completa (positivos + negativos).
 
@@ -127,6 +128,7 @@ npm run test:log -- --grep @smoke
 Salida esperada: `artifacts/test-results/last-run.log`.
 
 Comportamiento por default:
+
 - El log de consola **no** se guarda automáticamente con `npm test`.
 - Para persistir el log en archivo debes usar `npm run test:log`.
 
@@ -155,6 +157,7 @@ npm run evidence:refresh
 Playwright está configurado con `trace: 'on'`, por lo que genera trazas en éxitos y fallos.
 
 Comportamiento por default:
+
 - El trace **sí** se genera automáticamente cuando ejecutas `npm test` o cualquier comando Playwright de la suite.
 - No necesitas un comando extra para generar trace; solo para abrirlo (`npx playwright show-trace ...`).
 
@@ -240,7 +243,6 @@ Nota: los logs de ejecución Playwright se generan en `artifacts/test-results/` 
 - [docs/decisiones-tecnicas.md](docs/decisiones-tecnicas.md): decisiones de arquitectura, alcance y trade-offs del reto.
 - [tests/SauceDemo](tests/SauceDemo): suite automatizada enfocada al reto.
 - [evidencias](evidencias): ejemplos de reportes, capturas y artefactos generados.
-- [docs/video.md](docs/video.md): guion de la explicación en video.
 
 ## Cobertura del reto técnico
 
@@ -255,8 +257,16 @@ Este repo cubre los puntos clave del PDF:
 
 ## Video
 
-- El guion de la explicación está en [docs/video.md](docs/video.md).
-- Cuando esté grabado, sustituir este marcador por el enlace real del video en el README.
+- Video de la demostración (8-15 min):
+  - https://drive.google.com/file/d/1BzOCWgT4kbXms09DcrqE21m-Iz4mIWkh/view?usp=sharing
+
+## Checklist de entrega
+
+- [X] Repo público en GitHub con la suite, el README y las evidencias de ejemplo.
+- [X] Documento de diseño de casos + matriz de trazabilidad.
+- [X] Suite que corre en cualquier orden y genera reporte/evidencias.
+- [X] Link al video en el README.
+- [X] (Opcional) Pipeline CI.
 
 ## Decisiones clave
 
@@ -274,7 +284,7 @@ Este repo cubre los puntos clave del PDF:
 
 ## Siguientes pasos
 
-1. Grabar el video final y agregar su enlace en este README.
+1. Validar periódicamente que los artefactos de ejemplo en `evidencias/` estén actualizados.
 2. Ejecutar `npm run evidence:refresh` antes de la entrega para actualizar reportes versionados.
 3. Mantener la suite BDD como piloto complementario y ampliar cobertura en una v2.
 
