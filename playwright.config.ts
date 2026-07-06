@@ -1,29 +1,18 @@
 import { defineConfig, devices } from '@playwright/test';
-/*import dotenv from 'dotenv';
+import { activeEnvironment, activeBaseUrl } from './tests/util/environmentConfig';
 
-dotenv.config({
-  path: `.env.${process.env.NODE_ENV || 'dev'}`
-});*/
+const environment = activeEnvironment;
+
 /**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
+ * See https://playwright.dev/docs/test-configuration.
  */
-// import dotenv from 'dotenv';
-// import path from 'path';
-// dotenv.config({ path: path.resolve(__dirname, '.env') });
-
-require('dotenv').config(
-  {
-    path: `.env.${process.env.NODE_ENV ? process.env.NODE_ENV : 'dev'}`
-  }
-);
 
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
 
 export default defineConfig({
-  testDir: './tests/ligo',
+  testDir: './tests/SauceDemo',
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -43,9 +32,9 @@ export default defineConfig({
     navigationTimeout: 30000,
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
-    trace: 'on-first-retry',
+    trace: 'on',
     /* Base URL to use in actions like `await page.goto('')`. */
-    baseURL: process.env.URL ?? 'https://www.saucedemo.com/',
+    baseURL: activeBaseUrl,
   },
 
   /* Configure projects for major browsers */

@@ -12,7 +12,7 @@ Estructura:
 
 2. Resumen rápido del proyecto (30s)
    - Explicar stack: `Node.js`, `Playwright Test` y pilot `Cucumber (BDD)`.
-   - Mostrar la estructura del repo: `tests/ligo`, `tests/pageobjects`, `tests/util`, `evidencias/`, `features/`.
+   - Mostrar la estructura del repo: `tests/SauceDemo`, `tests/pageobjects`, `tests/util`, `evidencias/`, `features/`.
 
 3. Ejecución de la suite Playwright (40–60s)
    - Ejecutar `npm test` (o `npm run test:headed` para video con UI).
@@ -55,7 +55,7 @@ npm run bdd:report
 
 Archivos a señalar en el repo
 - `playwright.config.ts`
-- `tests/ligo/` (specs)
+- `tests/SauceDemo/` (specs)
 - `tests/pageobjects/` (POM)
 - `tests/util/evidence.ts` (capturas UI integradas)
 - `features/` (BDD pilot)

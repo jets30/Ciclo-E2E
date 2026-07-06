@@ -1,91 +1,70 @@
-# Guía del Proyecto: Reto QA Automatización Web E2E
+# Guía Personal del Proyecto (Conceptual)
 
-## 1. Propósito
-Este proyecto está orientado a cumplir el reto técnico de QA Automation Lead en el track de **Web E2E**. La implementación se basa en **Playwright** y el sistema objetivo será **SauceDemo**.
+> Uso personal. Este documento es una brújula conceptual para no perder contexto técnico del proyecto.
 
-## 2. Elección del track
-- Track elegido: **Web E2E**
-- Herramienta: **Playwright**
-- SUT estimado: **https://www.saucedemo.com/**
+## 1. Qué es este proyecto
+- Objetivo: resolver un reto de QA Automation E2E con trazabilidad y evidencia auditable.
+- SUT: SauceDemo.
+- Stack principal: Playwright + TypeScript.
+- Stack complementario: piloto BDD con Cucumber.
 
-### Por qué esta elección
-- El repositorio ya tiene Playwright configurado y tests existentes en `tests/`.
-- SauceDemo es un SUT público, estable y adecuado para flujos de e-commerce.
-- Permite demostrar patrones de automatización, diseño de pruebas y evidencias visuales.
-- Es factible en pocas horas con un alcance limpio y ordenado.
+## 2. Cómo está pensado el sistema de pruebas
+- La suite principal vive en `tests/SauceDemo/` y representa el flujo crítico del negocio.
+- Los pasos UI reutilizables se encapsulan en `tests/pageobjects/` (POM).
+- Datos y utilidades comunes viven en `tests/util/`.
+- Cucumber es un piloto paralelo para mostrar enfoque BDD, no reemplaza la suite principal.
 
-## 3. Qué se evaluará
-Los puntos del reto técnico que se alinean con el proyecto son:
-- Dominio de herramienta: uso real de Playwright.
-- Patrones de automatización: POM (Page Object Model) y estructura clara.
-- Metodología: independencia de tests, manejo de esperas y localizadores robustos.
-- Diseño de casos: técnica aplicada, priorización y trazabilidad.
-- Ciclo E2E: diseño → implementación → ejecución → reporte.
-- Evidencias: reportes, screenshots, traces/videos y logs.
-- Criterio técnico: decisiones justificadas y trade-offs claros.
+## 3. Carpeta por carpeta (para qué sirve cada una)
+- `tests/SauceDemo/`: tests E2E formales del reto (login y checkout).
+- `tests/pageobjects/`: objetos de página (`LoginPage`, `InventoryPage`, `CartPage`, `CheckoutPage`).
+- `tests/util/`: configuración de ambiente, captura de evidencia, datos de prueba y logging.
+- `features/`: escenarios BDD en Gherkin.
+- `features/steps/`: implementación de pasos BDD.
+- `features/support/`: hooks y world de Cucumber.
+- `docs/`: documentación formal del reto (casos, decisiones, guion).
+- `scripts/`: automatizaciones auxiliares (sincronizar reportes, generar reportes, test con log).
+- `playwright-report/`: reporte HTML local de Playwright.
+- `test-results/`: artefactos técnicos locales (trace, video, screenshots, adjuntos).
+- `reports/`: artefactos locales de Cucumber + logs de corrida.
+- `evidencias/`: snapshots versionados para revisión externa.
 
-## 4. Estado actual del repositorio
-### Archivos clave
-- `package.json`: dependencias `@playwright/test`, TypeScript, dotenv.
-- `playwright.config.ts`: configuración de Playwright, proyectos Chrome, reporter HTML.
-- `tests/`: contiene varios `*.spec.ts`, incluyendo `saucedemo1.spec.ts` y `testPOMCarritoDeCompras.spec.ts`.
-- `tests/pageobjects/LoginPage.ts`: página de login con acciones encapsuladas.
-- `.env.dev`, `.env.qa`: variables de entorno de URL.
+## 4. Flujo operativo (día a día)
+- Ejecutar suite principal: `npm test`.
+- Ejecutar smoke: `npm run test:smoke`.
+- Ejecutar con log persistente: `npm run test:log -- --grep @smoke`.
+- Abrir reporte Playwright local: `npm run test:report`.
+- Abrir trace puntual: `npx playwright show-trace test-results/<carpeta-test>/trace.zip`.
+- Ejecutar BDD: `npm run bdd:test`.
+- Generar BDD local HTML: `npm run bdd:report`.
 
-### Observaciones
-- Hay una base de POM, pero la suite puede mejorar con más páginas y un flujo centralizado.
-- Faltan documentos de diseño de casos y trazabilidad.
-- Faltan evidencias versionadas en el repo como `evidencias/`.
-- No hay README con instrucciones claras de ejecución.
+## 5. Flujo de evidencias
+- Trabajo local: `playwright-report/`, `test-results/`, `reports/`.
+- Publicación versionada: `evidencias/playwright-report` y `evidencias/bdd-report.html`.
+- Comando integral: `npm run evidence:refresh`.
 
-## 5. Casos y flujo planeado
-### Historias adaptadas al SUT SauceDemo
-- HU-1 Autenticación: login válido y login inválido.
-- HU-2 Operación principal: buscar producto, agregar al carrito y checkout.
-- HU-3 Verificación de estado: orden completada y detalles del carrito.
-- HU-4 Casos negativos: campos obligatorios faltantes en checkout y usuario bloqueado.
+## 6. Decisiones técnicas (resumen rápido)
+- POM para mantenibilidad y separación de responsabilidades.
+- Tests independientes con contexto/página por prueba.
+- Localizadores robustos (`getByRole`, `getByText`, etc.).
+- Configuración por ambiente usando `.env.*` y helper central.
+- Trace habilitado para éxitos y fallos (`trace: 'on'`).
 
-### Alcance inicial
-- Implementar un flujo E2E central con un producto y checkout completo.
-- Incluir al menos un caso negativo de login y un caso negativo de checkout.
-- Externalizar datos de prueba y usar localizadores por rol / test id.
+## 7. Alcance actual real
+- HU-1: login válido e inválido (usuario bloqueado).
+- HU-2: operación principal de compra (add to cart + checkout).
+- HU-3: verificación de estado (orden completada).
+- HU-4: borde/negativo (campo obligatorio faltante).
 
-## 6. Entregables planificados
-- `docs/casos-de-prueba.md`: documento de diseño y trazabilidad.
-- Suite automatizada en `tests/` usando Playwright.
-- Evidencias: reporte HTML y capturas example en `playwright-report/` o `evidencias/`.
-- `README.md`: instrucciones de instalación y ejecución.
-- `docs/guia-del-proyecto.md`: este documento de guía adicional.
+## 8. Lo que NO cubre todavía (para recordar)
+- Variantes extendidas de usuarios especiales de SauceDemo.
+- Más combinaciones de borde parametrizadas.
+- Suite de regresión ampliada por catálogo completo.
+- Integración de métricas avanzadas de estabilidad.
 
-## 7. Arquitectura propuesta
-### Estructura de carpetas
-- `tests/`: archivos de prueba.
-- `tests/pageobjects/`: clases de página reutilizables.
-- `tests/util/`: datos de prueba y utilidades.
-- `docs/`: documentación de diseño y guía.
-- `evidencias/`: ejemplos de capturas, reportes y traces.
-
-### POM recomendado
-- `LoginPage.ts`
-- `InventoryPage.ts`
-- `CartPage.ts`
-- `CheckoutPage.ts`
-
-## 8. Cómo ejecutar hoy
-```bash
-npm install
-npx playwright install
-npx playwright test
-```
-
-## 9. Próximos pasos
-1. Consolidar los casos de prueba en `docs/casos-de-prueba.md`.
-2. Refactorizar la suite para usar POM en `tests/pageobjects/`.
-3. Crear un archivo de pruebas E2E principal con el flujo SauceDemo.
-4. Añadir evidencia de ejemplo y mejorar el `README.md`.
-5. Documentar decisiones clave y trade-offs en el README y guía.
-
-## 10. Notas importantes
-- La solución prioriza calidad sobre cantidad de tests.
-- Se buscará que cada test sea independiente y robusto.
-- El proyecto local se puede convertir después en repo público para la entrega.
+## 9. Checklist personal antes de cerrar entrega
+- README consistente con nombres y rutas actuales.
+- `playwright.config.ts` apuntando a `tests/SauceDemo`.
+- Reportes locales generados (`playwright-report`, `reports/bdd-report.html`).
+- Evidencias versionadas actualizadas cuando corresponda.
+- Trazabilidad de casos en `docs/casos-de-prueba.md`.
+- Trade-offs actualizados en `docs/decisiones-tecnicas.md`.

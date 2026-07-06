@@ -35,6 +35,9 @@ traces/
 
 # Keep evidencias/ versioned (examples of reports/screenshots)
 # evidencias/
+evidencias/ui/
+evidencias/screenshots/
+evidencias/last-run.log
 
 # Playwright
 node_modules/
