@@ -6,7 +6,7 @@ export async function captureScreen(page: Page, testInfo: TestInfo, step: string
   const testName = testInfo.title.replace(/[^a-zA-Z0-9-_]+/g, '_')
   const projectName = testInfo.project.name.replace(/[^a-zA-Z0-9-_]+/g, '_')
   const fileName = `${step.replace(/[^a-zA-Z0-9-_]+/g, '_')}.png`
-  const outputDir = path.join(process.cwd(), 'test-results', 'ui', projectName, testName)
+  const outputDir = path.join(process.cwd(), 'artifacts', 'test-results', 'ui', projectName, testName)
 
   fs.mkdirSync(outputDir, { recursive: true })
 

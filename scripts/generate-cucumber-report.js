@@ -2,8 +2,8 @@ const reporter = require('cucumber-html-reporter')
 const fs = require('fs')
 const path = require('path')
 
-const jsonReport = 'reports/cucumber.json'
-const outHtml = process.argv[2] || 'reports/bdd-report.html'
+const jsonReport = 'artifacts/bdd-reports/cucumber.json'
+const outHtml = process.argv[2] || 'artifacts/bdd-reports/bdd-report.html'
 
 if (!fs.existsSync(jsonReport)) {
   console.error('cucumber json not found:', jsonReport)

@@ -3,7 +3,9 @@
 > Documento formal de entrega para el reto técnico. Cubre el diseño, la trazabilidad y las decisiones de automatización del flujo E2E sobre SauceDemo.
 
 ## Cobertura frente al reto técnico
+
 Este documento está alineado con las entregas obligatorias del PDF:
+
 - Diseño de casos: define 4 casos con historia, técnica, priorización, precondiciones, datos, pasos y resultado esperado.
 - Trazabilidad: relaciona cada historia de usuario con los casos y con los tests automatizados.
 - Alcance del reto: cubre autenticación, operación principal (checkout), verificación de estado y casos negativos de borde.
@@ -19,18 +21,22 @@ Este documento está alineado con las entregas obligatorias del PDF:
 ## Criterios de aceptación por historia (BDD)
 
 ### HU-1 — Autenticación
+
 - Criterio 1: Dado un usuario con credenciales válidas, cuando intenta iniciar sesión, entonces accede al inventario y visualiza el carrito.
 - Criterio 2: Dado un usuario bloqueado o con credenciales inválidas, cuando intenta iniciar sesión, entonces no accede al inventario y se muestra un mensaje de error claro.
 
 ### HU-2 — Operación principal
+
 - Criterio 1: Dado un usuario autenticado, cuando selecciona un producto, lo agrega al carrito y avanza al checkout, entonces el producto aparece en el resumen del carrito.
 - Criterio 2: Dado un usuario con un producto en el carrito, cuando completa los datos de envío y finaliza la compra, entonces se confirma la orden correctamente.
 
 ### HU-3 — Verificación de estado
+
 - Criterio 1: Dado que la compra se ha completado, cuando el usuario revisa el flujo final, entonces se visualiza un mensaje de confirmación de compra.
 - Criterio 2: Dado un proceso de checkout en curso, cuando la compra no se completa, entonces el sistema mantiene el estado del flujo y muestra el error correspondiente.
 
 ### HU-4 — Casos negativos y de borde
+
 - Criterio 1: Dado un usuario autenticado en checkout, cuando deja un campo obligatorio vacío, entonces el sistema impide continuar y muestra un mensaje de validación.
 - Criterio 2: Dado un usuario que intenta avanzar con datos incompletos, cuando presiona continuar, entonces no se genera la orden y se conserva el estado de la pantalla de checkout.
 
@@ -91,7 +97,7 @@ Este documento está alineado con las entregas obligatorias del PDF:
 - ID: CP-04
 - Título: Checkout con datos obligatorios faltantes
 - Historia/Criterio: HU-4
-- Técnica: Valores límite / campos obligatorios.
+- Técnica: Validación de campos obligatorios.
 - Prioridad: Media. Justificación: cubre un escenario de negocio importante, pero no es el flujo principal de compra.
 - Severidad: Media. Justificación: afecta la validación de datos, pero no rompe todo el proceso si se maneja correctamente.
 - Precondiciones: Login exitoso.
@@ -105,10 +111,10 @@ Este documento está alineado con las entregas obligatorias del PDF:
 
 ## Matriz de trazabilidad
 
-| HU   | CP    | Test File        | Test Name                                                | Estado |
-| ---- | ----- | ---------------- | -------------------------------------------------------- | ------ |
-| HU-1 | CP-01 | login.spec.ts    | login exitoso con credenciales válidas                  | ✅     |
-| HU-1 | CP-02 | login.spec.ts    | muestra error para usuario bloqueado                     | ✅     |
-| HU-2 | CP-03 | checkout.spec.ts | flujo de compra E2E exitoso                              | ✅     |
-| HU-3 | CP-03 | checkout.spec.ts | flujo de compra E2E exitoso                              | ✅     |
-| HU-4 | CP-04 | checkout.spec.ts | error al continuar checkout con campo obligatorio vacío | ✅     |
+| HU   | CP    | `Descripción  `          | `Técnica`              | Test File        | Test Name                                                | Estado              |
+| ---- | ----- | --------------------------- | ------------------------- | ---------------- | -------------------------------------------------------- | ------------------- |
+| HU-1 | CP-01 | **`Login válido`** | `Partición EQ`         | login.spec.ts    | login exitoso con credenciales válidas                  | ✅`Implementado ` |
+| HU-1 | CP-02 | `Login error `            | `Partición EQ`         | login.spec.ts    | muestra error para usuario bloqueado                     | ✅`Implementado ` |
+| HU-2 | CP-03 | `Compra E2E`              | `E2E/Happy`             | checkout.spec.ts | flujo de compra E2E exitoso                              | ✅`Implementado ` |
+| HU-3 | CP-03 | `Verificación`           | `E2E/Happy`             | checkout.spec.ts | flujo de compra E2E exitoso                              | ✅`Implementado ` |
+| HU-4 | CP-04 | `Validación`             | `Validación de Campos` | checkout.spec.ts | error al continuar checkout con campo obligatorio vacío | ✅`Implementado ` |

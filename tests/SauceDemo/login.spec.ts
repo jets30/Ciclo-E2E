@@ -28,7 +28,7 @@ test.describe('SauceDemo Login', () => {
     }
   })
 
-  test('muestra error para usuario bloqueado @smoke @regression', async ({ browser }, testInfo: TestInfo) => {
+  test('muestra error para usuario bloqueado @regression', async ({ browser }, testInfo: TestInfo) => {
     const context = await browser.newContext()
     const page = await context.newPage()
 

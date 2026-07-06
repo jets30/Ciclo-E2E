@@ -30,35 +30,155 @@ npm run install:browsers
 
 ## Ejecución
 
-La suite enfocada al reto se encuentra en `tests/SauceDemo`.
+La suite principal (no BDD) está en `tests/SauceDemo`.
+
+### Playwright (no BDD)
+
+Estrategia de tags aplicada:
+- `@smoke`: solo flujo crítico positivo (login exitoso y checkout exitoso).
+- `@regression`: cobertura completa (positivos + negativos).
+
+Ejecutar todos los tests Playwright:
 
 ```bash
 npm test
 ```
 
-Ejecutar en modo visible:
+Ejecutar todos los tests en modo visible (headed):
 
 ```bash
 npm run test:headed
 ```
 
-Abrir el reporte después de la ejecución:
+Ejecutar por tag:
+
+```bash
+npm run test:smoke
+npm run test:regression
+```
+
+También puedes filtrar por grep manual:
+
+```bash
+npx playwright test --grep "@smoke"
+npx playwright test --grep "@regression"
+```
+
+Ejecutar un único test por nombre exacto:
+
+```bash
+npx playwright test --grep "flujo de compra E2E exitoso"
+```
+
+Ejecutar un archivo de test específico:
+
+```bash
+npx playwright test tests/SauceDemo/login.spec.ts
+npx playwright test tests/SauceDemo/checkout.spec.ts
+```
+
+Ejecutar un test específico por nombre:
+
+```bash
+npx playwright test --grep "login exitoso con credenciales válidas"
+```
+
+### BDD (Cucumber)
+
+Ejecutar todos los escenarios BDD:
+
+```bash
+npm run bdd:test
+```
+
+Ejecutar un feature específico:
+
+```bash
+npx cucumber-js --require-module ts-node/register --require features/**/*.ts --format json:artifacts/bdd-reports/cucumber.json features/login.feature
+```
+
+Ejecutar BDD por tag:
+
+```bash
+npm run bdd:smoke
+npm run bdd:regression
+```
+
+Generar el reporte HTML BDD local:
+
+```bash
+npm run bdd:report
+```
+
+Publicar reporte BDD en evidencias versionadas:
+
+```bash
+npm run bdd:report:evidence
+```
+
+### Logs de corrida
+
+Generar log local de una corrida Playwright:
+
+```bash
+npm run test:log -- --grep @smoke
+```
+
+Salida esperada: `artifacts/test-results/last-run.log`.
+
+Comportamiento por default:
+- El log de consola **no** se guarda automáticamente con `npm test`.
+- Para persistir el log en archivo debes usar `npm run test:log`.
+
+### Reportes
+
+Abrir el reporte Playwright después de una ejecución:
 
 ```bash
 npm run test:report
 ```
 
-La evidencia del reporte generado también se copia a `evidencias/playwright-report/index.html`.
+Sincronizar el reporte Playwright a evidencias versionadas:
 
-Las capturas de UI de cada paso clave se adjuntan al informe HTML de Playwright y están disponibles en los detalles de cada prueba.
+```bash
+npm run evidence:sync
+```
 
-## Dónde queda cada artefacto (local)
+Refrescar todas las evidencias en un flujo (Playwright + BDD):
 
-- `playwright-report/` → reporte HTML de Playwright de la última corrida local.
-- `test-results/` → videos, traces, screenshots y adjuntos técnicos de Playwright.
-- `reports/cucumber.json` → salida JSON de Cucumber (BDD).
-- `reports/bdd-report.html` → reporte HTML BDD de la última corrida local.
-- `reports/last-run.log` → log local de corrida generado con `npm run test:log`.
+```bash
+npm run evidence:refresh
+```
+
+### Trace (ejecuciones exitosas y fallidas)
+
+Playwright está configurado con `trace: 'on'`, por lo que genera trazas en éxitos y fallos.
+
+Comportamiento por default:
+- El trace **sí** se genera automáticamente cuando ejecutas `npm test` o cualquier comando Playwright de la suite.
+- No necesitas un comando extra para generar trace; solo para abrirlo (`npx playwright show-trace ...`).
+
+Abrir un trace específico:
+
+```bash
+npx playwright show-trace artifacts/test-results/<carpeta-test>/trace.zip
+```
+
+Ejemplo:
+
+```bash
+npx playwright show-trace artifacts/test-results/checkout-SauceDemo-Checkou-973cf-2E-exitoso-smoke-regression-chromium/trace.zip
+```
+
+### Dónde queda cada artefacto (local)
+
+- `artifacts/playwright-report/` → reporte HTML de Playwright de la última corrida local.
+- `artifacts/test-results/` → videos, traces, screenshots y adjuntos técnicos de Playwright.
+- `artifacts/bdd-reports/cucumber.json` → salida JSON de Cucumber (BDD).
+- `artifacts/bdd-reports/bdd-report.html` → reporte HTML BDD de la última corrida local.
+- `artifacts/test-results/last-run.log` → log local de corrida Playwright generado con `npm run test:log`.
+
+Nota: `features/` (BDD) es un track adicional separado de la suite principal en `tests/SauceDemo` y se mantiene como base para una evolución v2.
 
 Nota: `evidencias/` es solo para ejemplos versionados de entrega (no para trabajo diario).
 
@@ -95,7 +215,7 @@ npm run bdd:test
 npm run bdd:report
 ```
 
-Esto deja el HTML en `reports/bdd-report.html`.
+Esto deja el HTML en `artifacts/bdd-reports/bdd-report.html`.
 
 3. Flujo completo en un comando:
 
@@ -103,28 +223,9 @@ Esto deja el HTML en `reports/bdd-report.html`.
 npm run evidence:refresh
 ```
 
-4. Generar log de corrida local en `reports/last-run.log`:
+4. Este flujo además publica la versión BDD en `evidencias/bdd-report.html` usando `npm run bdd:report:evidence`.
 
-```bash
-npm run test:log -- --grep @smoke
-```
-
-5. Las capturas, videos, traces y logs de ejecución quedan en artefactos locales (`test-results/`, `playwright-report/`, `reports/`) y no se versionan en `evidencias/`.
-6. Trazas Playwright: se generan para ejecuciones exitosas y fallidas. Para abrir una traza:
-
-```bash
-npx playwright show-trace test-results/<carpeta-test>/trace.zip
-```
-
-Nota: Playwright está configurado con `trace: 'on'` para guardar trazas en éxitos y fallos. Videos y screenshots se conservan en fallos; todo queda en `test-results/`.
-
-Tip: para refrescar toda la evidencia en un solo flujo (Playwright + BDD), usa:
-
-```bash
-npm run evidence:refresh
-```
-
-Ese comando además publica la versión BDD en `evidencias/bdd-report.html` con `npm run bdd:report:evidence`.
+Nota: los logs de ejecución Playwright se generan en `artifacts/test-results/` y los artefactos BDD en `artifacts/bdd-reports/`; en `evidencias/` solo se versionan los reportes de entrega.
 
 ## Diseño del reto
 
@@ -173,19 +274,9 @@ Este repo cubre los puntos clave del PDF:
 
 ## Siguientes pasos
 
-1. Ejecutar `npm test`.
-2. Revisar reportes y evidencia en `playwright-report/`.
-3. Documentar el video en el README.
-
-- Implementé un piloto BDD con Cucumber para dos escenarios clave (login, checkout).
-  - Features: `features/*.feature`
-  - Step definitions: `features/steps/*.ts`
-  - World/hooks: `features/support`
-  - Ejecutar BDD: `npm run bdd:test`
-  - Generar reporte HTML local: `npm run bdd:report` → `reports/bdd-report.html`
-  - Publicar versión de evidencia: `npm run bdd:report:evidence` → `evidencias/bdd-report.html`
-
-Nota: esto es un piloto: la suite principal sigue siendo `@playwright/test`. Mantuvimos ambas por compatibilidad.
+1. Grabar el video final y agregar su enlace en este README.
+2. Ejecutar `npm run evidence:refresh` antes de la entrega para actualizar reportes versionados.
+3. Mantener la suite BDD como piloto complementario y ampliar cobertura en una v2.
 
 CI y demo:
 

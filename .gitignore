@@ -17,10 +17,10 @@ Thumbs.db
 .env.*.local
 
 # Playwright and test outputs (generated)
-playwright-report/
+artifacts/playwright-report/
 .playwright/
-test-results/
-reports/
+artifacts/test-results/
+artifacts/bdd-reports/
 
 # Logs
 *.log
@@ -41,8 +41,8 @@ evidencias/last-run.log
 
 # Playwright
 node_modules/
-/test-results/
-/playwright-report/
+/artifacts/test-results/
+/artifacts/playwright-report/
+/artifacts/bdd-reports/
 /blob-report/
 /playwright/.cache/
-/playwright/.auth/

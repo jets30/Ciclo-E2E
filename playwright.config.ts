@@ -22,8 +22,8 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: [['html', { outputFolder: 'playwright-report', open: 'never' }]],
-  outputDir: 'test-results',
+  reporter: [['html', { outputFolder: 'artifacts/playwright-report', open: 'never' }]],
+  outputDir: 'artifacts/test-results',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     // Run headed locally but use headless on CI runners
@@ -52,7 +52,6 @@ export default defineConfig({
         contextOptions: {
           // chromium-specific permissions
           permissions: ['clipboard-read', 'clipboard-write'],
-         // storageState: "playwright/.auth/user.json",
       },
     },
     //dependencies: ['setup']

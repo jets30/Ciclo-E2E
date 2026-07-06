@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 
-const sourceDir = path.join(process.cwd(), 'playwright-report')
+const sourceDir = path.join(process.cwd(), 'artifacts', 'playwright-report')
 const targetDir = path.join(process.cwd(), 'evidencias', 'playwright-report')
 
 if (!fs.existsSync(sourceDir)) {
